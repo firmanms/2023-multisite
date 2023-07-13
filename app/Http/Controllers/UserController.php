@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -11,16 +12,11 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        // $users = User::latest()->paginate(10);
+        
         if ($request->ajax()) {
             $data = User::with('roles')->get();
             return DataTables::of($data)
                     ->addIndexColumn()
-                    // ->addColumn('role', function ($data) {
-                    //     $role= $data->role->name;
-                    //     // dd($judul);
-                    //     return $role ;
-                    // })
                     ->addColumn('action', function($row){
      
                            $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
@@ -32,7 +28,6 @@ class UserController extends Controller
                     ->make(true);
         }
         return view('users.index');
-        // return view('users.index', compact('users'));
     }
     /**
      * Show form for creating user

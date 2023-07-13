@@ -8,8 +8,9 @@ use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\Facades\DataTables;
 
-class RolesControllers extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,9 +29,21 @@ class RolesControllers extends Controller
      */
     public function index(Request $request)
     {   
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        if ($request->ajax()) {
+            $data = Role::all();
+            return DataTables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row){
+     
+                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+    
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->addIndexColumn()
+                    ->make(true);
+        }
+        return view('roles.index');
     }
     
     /**
@@ -40,8 +53,8 @@ class RolesControllers extends Controller
      */
     public function create()
     {
-        $permissions = Permission::get();
-        return view('roles.create', compact('permissions'));
+        $permission = Permission::get();
+        return view('roles.create', compact('permission'));
     }
     
     /**

@@ -21,7 +21,8 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <form class="form-horizontal">
+                            <form method="POST" class="form-horizontal" action="">
+                                @csrf
 
                                 <div class="form-group row">
                                     <label for="InputPerangkat_id" class="col-sm-2 col-form-label">Perangkat ID</label>
@@ -61,7 +62,7 @@
                                 <div class="form-group row">
                                     <label for="InputRole" class="col-sm-2 col-form-label">Role</label>
                                 <div class="col-sm-10">
-                                    <select multiple="" class="form-control">
+                                    <select multiple="" name="role" class="form-control">
                                         @foreach($roles as $role)
                                         <option value="{{ $role->id }}"
                                             {{ in_array($role->name, $userRole) 
