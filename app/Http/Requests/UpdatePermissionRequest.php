@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePermissionRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,11 @@ class StorePermissionRequest extends FormRequest
      */
     public function rules()
     {
+        // Let's get the route param by name to get the User object value
+        $permission = request()->route('permission');
         return [
             'name' => 'required',
-            // 'guard_name' => 'required',
+            'guard_name' => 'required',
         ];
     }
 }

@@ -27,7 +27,7 @@
                                 <div class="form-group row">
                                     <label for="InputName" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" required placeholder="Admin Perangkat">
+                                    <input type="text" class="form-control" name="name" readonly required value="{{ $role->name }}" placeholder="Admin Perangkat">
                                 </div>
                                 </div>
 
@@ -36,7 +36,7 @@
                                 <div class="col-sm-10">
                                     <table class="table table-striped">
                                         <thead>
-                                            <th scope="col" width="1%"></th>
+                                            <th scope="col" width="1%"><input type="checkbox" name="all_permission"></th>
                                             <th scope="col" width="20%">Name</th>
                                             <th scope="col" width="1%">Guard</th>
                                         </thead>
@@ -47,7 +47,11 @@
                                                     <input type="checkbox"
                                                     name="permission[{{ $permissions->name }}]"
                                                     value="{{ $permissions->name }}"
-                                                    class='permission'>
+                                                    onclick="return false;"
+                                                    class='permission'
+                                                    {{ in_array($permissions->id, $rolePermissions)
+                                                        ? 'checked'
+                                                        : '' }}>
                                                 </td>
                                                 <td>{{ $permissions->name }}</td>
                                                 <td>{{ $permissions->guard_name }}</td>

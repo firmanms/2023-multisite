@@ -36,7 +36,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                
+
                                     </tbody>
                                 </table>
                             </div>
@@ -53,6 +53,43 @@
 @endsection
 @push('scriptss')
 <script type="text/javascript">
+    $(document).ready( function () {
+    $.noConflict();
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+    });
+    $('#tbl_list').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ url('roles') }}",
+    columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+        { data: 'name', name: 'name' },
+        { data: 'action', name: 'action', orderable: false, searchable: false},
+    ],
+    order: [[0, 'desc']]
+    });
+    $('body').on('click', '.delete', function () {
+    if (confirm("Delete Record?") == true) {
+    var id = $(this).data('id');
+    // ajax
+    $.ajax({
+    url: "{{ url('roles-delete') }}",
+    type:"POST",
+    data: { id: id},
+    dataType: 'json',
+    success: function(res){
+    var oTable = $('#tbl_list').dataTable();
+    oTable.fnDraw(false);
+    }
+    });
+    }
+    });
+    });
+    </script>
+{{-- <script type="text/javascript">
 $(document).ready(function () {
     $.noConflict();
    $('#tbl_list').DataTable({
@@ -63,10 +100,10 @@ $(document).ready(function () {
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
             { data: 'name', name: 'name' },
-            // { data: 'name', name: 'name' },
+            { data: 'action', name: 'action', orderable: false},
 
         ]
     });
  });
-</script>
+</script> --}}
 @endpush

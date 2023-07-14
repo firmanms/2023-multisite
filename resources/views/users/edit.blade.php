@@ -21,27 +21,28 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" class="form-horizontal" action="">
+                            <form method="POST" class="form-horizontal" action="{{ route('users.update', $user->id) }}">
+                                @method('patch')
                                 @csrf
 
                                 <div class="form-group row">
                                     <label for="InputPerangkat_id" class="col-sm-2 col-form-label">Perangkat ID</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="perangkat_id" required placeholder="Perangkat ID">
+                                    <input type="text" class="form-control" name="perangkat_id" required value="{{ $user->perangkat_id }}" placeholder="Perangkat ID">
                                 </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="name" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" required placeholder="Nama">
+                                    <input type="text" class="form-control" name="name" required value="{{ $user->name }}" placeholder="Nama">
                                 </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" name="email" required placeholder="admin@mail.com">
+                                    <input type="email" class="form-control" name="email" required value="{{ $user->email }}" placeholder="admin@mail.com">
                                 </div>
                                 </div>
 
@@ -59,7 +60,7 @@
                                 </div>
                                 </div>
 
-                                {{-- <div class="form-group row">
+                                <div class="form-group row">
                                     <label for="InputRole" class="col-sm-2 col-form-label">Role</label>
                                 <div class="col-sm-10">
                                     <select multiple="" name="role" class="form-control">
@@ -71,7 +72,7 @@
                                     @endforeach
                                     </select>
                                 </div>
-                                </div> --}}
+                                </div>
 
                                 <div class="card-footer">
                                 <button type="submit" class="btn btn-success">Simpan</button>

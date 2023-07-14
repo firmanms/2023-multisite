@@ -21,25 +21,26 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" class="form-horizontal" action="">
+                            <form method="POST" class="form-horizontal" action="{{ route('permissions.update', $permission->id) }}">
+                                @method('patch')
                                 @csrf
 
                                 <div class="form-group row">
                                     <label for="InputName" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" required placeholder="artikel-list">
+                                    {{ $permission->name }}
                                 </div>
                                 </div>
 
                                 {{-- <div class="form-group row">
                                     <label for="name" class="col-sm-2 col-form-label">Guard Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="guard_name" required placeholder="Web">
+                                    <input type="text" class="form-control" name="guard_name" required value="{{ $permission->guard_name }}" placeholder="Web">
                                 </div>
                                 </div> --}}
 
                                 <div class="card-footer">
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                {{-- <button type="submit" class="btn btn-success">Simpan</button> --}}
                                 <a href="{{ route('permissions.index') }}" class="btn btn-default float-right">Kembali</a>
                                 </div>
 

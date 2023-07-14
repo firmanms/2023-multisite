@@ -16,17 +16,12 @@ class PermissionsController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $data = Permission::all();
             return DataTables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($row){
-     
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-    
-                            return $btn;
-                    })
+                    ->addColumn('action', 'permissions.action')
                     ->rawColumns(['action'])
                     ->addIndexColumn()
                     ->make(true);
@@ -36,11 +31,11 @@ class PermissionsController extends Controller
 
     /**
      * Show form for creating permissions
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
-    public function create() 
-    {   
+    public function create()
+    {
         return view('permissions.create');
     }
 
@@ -51,7 +46,7 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $request->validate([
             'name' => 'required|unique:users,name'
         ]);
@@ -60,6 +55,13 @@ class PermissionsController extends Controller
 
         return redirect()->route('permissions.index')
             ->withSuccess(__('Permission created successfully.'));
+    }
+
+    public function show(Permission $permission)
+    {
+        return view('permissions.show', [
+            'permission' => $permission
+        ]);
     }
 
     /**
@@ -100,11 +102,16 @@ class PermissionsController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
-    {
-        $permission->delete();
+    // public function destroy(Permission $permission)
+    // {
+    //     $permission->delete();
 
-        return redirect()->route('permissions.index')
-            ->withSuccess(__('Permission deleted successfully.'));
+    //     return redirect()->route('permissions.index')
+    //         ->withSuccess(__('Permission deleted successfully.'));
+    // }
+    public function destroy(Request $request)
+    {
+    $com = Permission::where('id',$request->id)->delete();
+    return Response()->json($com);
     }
 }

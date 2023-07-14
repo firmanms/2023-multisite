@@ -34,11 +34,11 @@
                                             <th>Nama</th>
                                             <th>Email</th>
                                             <th>Roles</th>
-                
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                
+
                                     </tbody>
                                 </table>
                             </div>
@@ -55,6 +55,50 @@
 @endsection
 @push('scriptss')
 <script type="text/javascript">
+    $(document).ready( function () {
+    $.noConflict();
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+    });
+    $('#tbl_list').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: "{{ url('users') }}",
+    columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'name', name: 'name' },
+            { data: 'email', name: 'email' },
+            {data : 'roles', className : 'roles', render: function(data) {
+            // data is your array of roles, do what you like with it
+            let names = data.map(x => x.name);
+            return names.join("<br/>");
+
+        }},
+            { data: 'action', name: 'action', orderable: false, searchable: false},
+    ],
+    order: [[0, 'desc']]
+    });
+    $('body').on('click', '.delete', function () {
+    if (confirm("Delete Record?") == true) {
+    var id = $(this).data('id');
+    // ajax
+    $.ajax({
+    url: "{{ url('users-delete') }}",
+    type:"POST",
+    data: { id: id},
+    dataType: 'json',
+    success: function(res){
+    var oTable = $('#tbl_list').dataTable();
+    oTable.fnDraw(false);
+    }
+    });
+    }
+    });
+    });
+    </script>
+{{-- <script type="text/javascript">
 $(document).ready(function () {
     $.noConflict();
    $('#tbl_list').DataTable({
@@ -66,10 +110,16 @@ $(document).ready(function () {
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
-            { data: 'roles.name', 'defaultContent': '' },
+            {data : 'roles', className : 'roles', render: function(data) {
+            // data is your array of roles, do what you like with it
+            let names = data.map(x => x.name);
+            return names.join("<br/>");
+
+        }},
+            { data: 'action', name: 'action', orderable: false, searchable: false},
 
         ]
     });
  });
-</script>
+</script> --}}
 @endpush

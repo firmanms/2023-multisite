@@ -21,60 +21,47 @@
 
                     <div class="card">
                         <div class="card-body">
-                            <form method="POST" class="form-horizontal" action="">
+                            <form method="POST" class="form-horizontal" action="{{ route('users.update', $user->id) }}">
+                                @method('patch')
                                 @csrf
 
                                 <div class="form-group row">
                                     <label for="InputPerangkat_id" class="col-sm-2 col-form-label">Perangkat ID</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="perangkat_id" required placeholder="Perangkat ID">
+                                   {{ $user->perangkat_id }}
                                 </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="name" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="name" required placeholder="Nama">
+                                    {{ $user->name }}
                                 </div>
                                 </div>
 
                                 <div class="form-group row">
                                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" name="email" required placeholder="admin@mail.com">
+                                    {{ $user->email }}
                                 </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Password">
-                                </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="inputConfirmPassword" class="col-sm-2 col-form-label">Konfirmasi Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="confirm-password" id="inputConfirmPassword" placeholder="Konfirmasi Password">
-                                </div>
-                                </div>
-
-                                {{-- <div class="form-group row">
                                     <label for="InputRole" class="col-sm-2 col-form-label">Role</label>
                                 <div class="col-sm-10">
-                                    <select multiple="" name="role" class="form-control">
-                                        @foreach($roles as $role)
-                                        <option value="{{ $role->id }}"
-                                            {{ in_array($role->name, $userRole)
-                                                ? 'selected'
-                                                : '' }}>{{ $role->name }}</option>
-                                    @endforeach
-                                    </select>
+
+                                    @if(!empty($user->getRoleNames()))
+                                        @foreach($user->getRoleNames() as $v)
+                                            {{ $v }}
+                                        @endforeach
+                                    @endif
+
+
                                 </div>
-                                </div> --}}
+                                </div>
 
                                 <div class="card-footer">
-                                <button type="submit" class="btn btn-success">Simpan</button>
+                                {{-- <button type="submit" class="btn btn-success">Simpan</button> --}}
                                 <a href="{{ route('users.index') }}" class="btn btn-default float-right">Kembali</a>
                                 </div>
 
