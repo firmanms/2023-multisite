@@ -74,20 +74,38 @@
     order: [[0, 'desc']]
     });
     $('body').on('click', '.delete', function () {
-    if (confirm("Delete Record?") == true) {
+        Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
     var id = $(this).data('id');
-    // ajax
-    $.ajax({
-    url: "{{ url('permissions-delete') }}",
-    type:"POST",
-    data: { id: id},
-    dataType: 'json',
-    success: function(res){
-    var oTable = $('#tbl_list').dataTable();
-    oTable.fnDraw(false);
-    }
-    });
-    }
+        // ajax
+        $.ajax({
+        url: "{{ url('permissions-delete') }}",
+        type:"POST",
+        data: { id: id},
+        dataType: 'json',
+        success: function(res){
+        var oTable = $('#tbl_list').dataTable();
+        oTable.fnDraw(false);
+        }
+        });
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
+
+
+
     });
     });
     </script>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PermissionsController extends Controller
 {
@@ -52,7 +53,7 @@ class PermissionsController extends Controller
         ]);
 
         Permission::create($request->only('name'));
-
+        Alert::success('Sukses', 'Data telah ditambahkan');
         return redirect()->route('permissions.index')
             ->withSuccess(__('Permission created successfully.'));
     }
@@ -91,6 +92,7 @@ class PermissionsController extends Controller
         ]);
 
         $permission->update($request->only('name'));
+        Alert::success('Sukses', 'Data telah diperbarui');
 
         return redirect()->route('permissions.index')
             ->withSuccess(__('Permission updated successfully.'));

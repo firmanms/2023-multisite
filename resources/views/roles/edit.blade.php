@@ -37,7 +37,7 @@
                                 <div class="col-sm-10">
                                     <table class="table table-striped">
                                         <thead>
-                                            <th scope="col" width="1%"><input type="checkbox" name="all_permission"></th>
+                                            <th scope="col" width="1%"></th>
                                             <th scope="col" width="20%">Name</th>
                                             <th scope="col" width="1%">Guard</th>
                                         </thead>
